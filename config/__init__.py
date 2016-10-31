@@ -11,4 +11,4 @@ elif os.environ.get('SERVER_SOFTWARE', '') == 'TEST':
 else:
     DEPLOYMENT_STAGE = 'production'
 
-PROJECT_NAME = 'Flask Gin (as set in config.__init__.py)'
+PROJECT_NAME = 'Hip Flask (as set in config.__init__.py)'
