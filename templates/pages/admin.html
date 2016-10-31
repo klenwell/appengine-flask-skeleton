@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div id="admin">
+  <div class="header">
+    <h1>Welcome to the Admin Dashboard, {{ g.app_engine_user.nickname() }}.</h1>
+    <h4>Only administrators can access this page.</h4>
+  </div>
+</div>
+{% endblock %}
