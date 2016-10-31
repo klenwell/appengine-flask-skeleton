@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Bad Request{% endblock %}
+
+{% block content %}
+    <h2>400: Bad Request</h2>
+
+    <h4 class="message text-danger">
+    {% if message: %}
+        {{ message | safe }}
+    {% else: %}
+        Your request could not be processed.
+    {% endif %}
+    </h4>
+{% endblock %}

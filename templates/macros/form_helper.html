@@ -1,0 +1,74 @@
+{#
+ # Form Helpers
+ # Bootstrap macros based on https://gist.github.com/bearz/7394681.
+ #}
+{% macro bootstrap_field(field, label_visible=true) -%}
+  <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+    {% if label_visible %}
+      {{ field.label }}
+    {% endif %}
+
+    {{ field(class_='form-control', **kwargs) }}
+
+    {% if field.errors %}
+      {% for e in field.errors %}
+        <p class="help-block">{{ e }}</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+{%- endmacro %}
+
+
+{% macro bootstrap_datepicker(field, label_visible=true) -%}
+  <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+    {% if label_visible %}
+      {{ field.label }}
+    {% endif %}
+
+    <div class="input-group date bootstrap-datepicker {{ kwargs.pop('input_group_class', '') }}"
+         data-provide="datepicker">
+      {{ field(class_='form-control', **kwargs) }}
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-th"></i>
+      </span>
+    </div>
+
+    {% if field.errors %}
+      {% for e in field.errors %}
+        <p class="help-block">{{ e }}</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+{%- endmacro %}
+
+
+{% macro bootstrap_datetimepicker(field, label_visible=true) -%}
+  <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+    {% if label_visible %}
+      {{ field.label }}
+    {% endif %}
+
+    <div class="input-group date bootstrap-datetimepicker {{ kwargs.pop('input_group_class', '') }}"
+         id="{{ kwargs.pop('input_group_id', '') }}"
+         data-provide="datetimepicker">
+      {{ field(class_='form-control', **kwargs) }}
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-th"></i>
+      </span>
+    </div>
+
+    {% if field.errors %}
+      {% for e in field.errors %}
+        <p class="help-block">{{ e }}</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+{%- endmacro %}
+
+
+{% macro cancel_back_button(label='Cancel') -%}
+  {% if request.referrer: %}
+    <input type="hidden" name="cancel-redirect" value="{{ request.referrer }}">
+    <input type="submit" class="btn btn-danger" name="cancel" value="{{ label }}">
+  {% endif %}
+{%- endmacro %}

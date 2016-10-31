@@ -1,0 +1,32 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+    <h2>404</h2>
+
+    {% if coming_soon: %}
+    <h4 class="coming-soon">
+        {% if coming_soon.get('eta'): %}
+            <div class="alert alert-warning">
+                <span class="icon icon-traffic-cone"></span>
+                This page is currently under development and expected to be
+                released by {{ coming_soon['eta'] }}. Please check back then.
+            </div>
+        {% else: %}
+            <div class="alert alert-warning">
+                <span class="icon icon-traffic-cone"></span>
+                This page is currently under development.
+            </div>
+        {% endif %}
+    </h4>
+    {% endif %}
+
+    <h4 class="message text-danger">
+    {% if message: %}
+        {{ message | safe }}
+    {% else: %}
+        Page <strong>{{ request.path }}</strong> not found.
+    {% endif %}
+    </h4>
+{% endblock %}

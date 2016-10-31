@@ -326,6 +326,7 @@ class BasicFunctionalityTestCase(FlaskTestCase):
             flask.session['m'] = flask.Markup('Hello!')
             flask.session['u'] = the_uuid
             flask.session['dt'] = now
+            flask.session['b'] = b'\xff'
             flask.session['t'] = (1, 2, 3)
             return response
 
@@ -340,6 +341,8 @@ class BasicFunctionalityTestCase(FlaskTestCase):
         self.assert_equal(type(rv['m']), flask.Markup)
         self.assert_equal(rv['dt'], now)
         self.assert_equal(rv['u'], the_uuid)
+        self.assert_equal(rv['b'], b'\xff')
+        self.assert_equal(type(rv['b']), bytes)
         self.assert_equal(rv['t'], (1, 2, 3))
 
     def test_flashes(self):
@@ -1213,6 +1216,35 @@ class SubdomainTestCase(FlaskTestCase):
         self.assert_equal(rv.data, b'Test')
         rv = c.get('/outside', 'http://xtesting.localhost/')
         self.assert_equal(rv.data, b'Outside')
+
+    def test_multi_route_rules(self):
+        app = flask.Flask(__name__)
+
+        @app.route('/')
+        @app.route('/<test>/')
+        def index(test='a'):
+            return test
+
+        rv = app.test_client().open('/')
+        self.assert_equal(rv.data, b'a')
+        rv = app.test_client().open('/b/')
+        self.assert_equal(rv.data, b'b')
+
+    def test_multi_route_class_views(self):
+        class View(object):
+            def __init__(self, app):
+                app.add_url_rule('/', 'index', self.index)
+                app.add_url_rule('/<test>/', 'index', self.index)
+
+            def index(self, test='a'):
+                return test
+
+        app = flask.Flask(__name__)
+        _ = View(app)
+        rv = app.test_client().open('/')
+        self.assert_equal(rv.data, b'a')
+        rv = app.test_client().open('/b/')
+        self.assert_equal(rv.data, b'b')
 
 
 def suite():

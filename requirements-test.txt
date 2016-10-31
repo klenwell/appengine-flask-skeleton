@@ -1,0 +1,15 @@
+# This requirements file list dependencies for testing with nose.
+#
+# Run 'pip install -r requirements-test.txt' to install these dependencies.
+
+nose
+nosegae
+coverage
+nose-exclude
+beautifulsoup4
+
+# Mocking / Patching: https://docs.python.org/3.3/library/unittest.mock.html
+mock
+
+# To test email handler.
+WebTest

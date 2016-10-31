@@ -1,7 +1,21 @@
-# This requirements file lists all third-party dependencies for this project.
+# Dependencies should be installed in `lib/` subdirectory.
 #
-# Run 'pip install -r requirements.txt -t lib/' to install these dependencies
-# in `lib/` subdirectory.
+# When updating, it's simplest to back up the lib directory, remove it, and reinstall
+# from scratch:
+#
+#   cd app-engine
+#   tar -zcvf ./lib-$(date +%Y%m%d).tgz ./lib
+#   rm -rf lib
+#   pip install -r requirements.txt -t lib/
+#
+# If something goes wrong and you need to reinstall the original lib directory:
+#
+#   cd app-engine
+#   tar -zxvf ./lib-$(date +%Y%m%d).tgz -C ./
 #
 # Note: The `lib` directory is added to `sys.path` by `appengine_config.py`.
-Flask==0.10
+#
+Flask==0.10.1
+
+# Flask forms
+Flask-WTF
