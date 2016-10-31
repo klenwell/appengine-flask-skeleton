@@ -7,6 +7,10 @@
 # Defaults file types
 *.pyc
 
+# Don't include third-party dependencies.
+!lib/README.md
+.DS_Store
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
