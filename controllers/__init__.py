@@ -151,7 +151,7 @@ def render_403(message=None):
 @app.before_request
 def set_app_engine_user():
     g.app_engine_user = users.get_current_user()
-    g.is_app_engine_admin = users.is_current_user_admin()
+    g.app_engine_user_is_admin = users.is_current_user_admin()
 
 @app.before_request
 def check_csrf():
