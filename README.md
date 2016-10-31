@@ -6,7 +6,7 @@ It is behind small projects like https://github.com/klenwell/decruiter and large
 
 - Demo Site: https://hip-flask-on.appspot.com/
 - Trello Board: https://trello.com/b/3w3mlaUf/hip-flask
-- App Engine Dashboard: https://console.developers.google.com/
+- App Engine Dashboard: https://console.cloud.google.com/appengine
 
 
 ## Installation
