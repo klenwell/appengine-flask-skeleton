@@ -29,8 +29,8 @@ It is behind small projects like https://github.com/klenwell/decruiter and large
 
     ```
     cd app-engine
-    pyenv virtualenv 2.7.7 flask-hip
-    pyenv local flask-hip
+    pyenv virtualenv 2.7.7 hip-flask
+    pyenv local hip-flask
     ```
 
     Install dependencies:
