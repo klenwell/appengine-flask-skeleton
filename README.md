@@ -68,6 +68,10 @@ First, install testing libraries:
     cd my-new-project/app-engine
     pip install -r requirements-test.txt
 
+Then update `nose.cfg` settings, especially:
+
+    gae-lib-root=APP_ENGINE_PATH_HERE
+
 To run tests:
 
     cd my-new-project/app-engine
