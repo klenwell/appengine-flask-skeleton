@@ -4,7 +4,7 @@
 # for details.
 
 # default: production
-version: production
+version: zkfcpx0z
 
 application: hip-flask
 runtime: python27
@@ -21,38 +21,38 @@ inbound_services:
 
 # Handlers define how to route requests to your application.
 handlers:
-    
+
   #
   # Static directories
   #
 - url: /assets
   static_dir: assets
-  
+
 - url: /favicon\.ico
   static_files: assets/images/favicon.ico
   upload: assets/images/favicon\.ico
-  
+
 - url: /robots\.txt
   static_files: assets/webtools/robots.txt
   upload: assets/media/robots.txt
-  
+
 - url: /sitemap\.txt
   static_files: assets/webtools/sitemap.txt
   upload: assets/media/sitemap.txt
-  
+
   #
   # API Controller Endpoints
   #
 - url: /api(/.*)?
   script: controllers.pages.app
-  
+
   #
   # Admin Controller Endpoints
   #
 - url: /admin(/.*)?
   script: controllers.pages.app
   login: admin
-  
+
   #
   # Mail Handlers
   #
@@ -63,6 +63,5 @@ handlers:
   #
   # Default Route
   #
-- url: .* 
+- url: .*
   script: controllers.pages.app
-
