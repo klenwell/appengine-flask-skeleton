@@ -10,14 +10,11 @@
 
     AssertionError: View function mapping is overwriting an existing endpoint function
 """
-import os
 from os.path import dirname, join
-from datetime import date, datetime
+from datetime import date
 from functools import wraps
-import logging
 
-from flask import (Flask, render_template, request, g, flash, redirect, abort,
-                   url_for, session, jsonify)
+from flask import (Flask, render_template, request, g, redirect, jsonify)
 from flask.json import JSONEncoder
 from flask_wtf.csrf import CSRFProtect, CSRFError
 
@@ -49,7 +46,7 @@ csrf = CSRFProtect(app)
 # Request Callbacks
 #
 @app.before_request
-def set_app_engine_user():
+def greet_guest():
     g.app_engine_user = users.get_current_user()
     g.app_engine_user_is_admin = users.is_current_user_admin()
 
