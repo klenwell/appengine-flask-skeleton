@@ -6,13 +6,13 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', '{{ analytics_id }}', 'auto');
+  ga('create', '{{ secrets.analytics_id }}', 'auto');
   ga('send', 'pageview');
 
 </script>
 
 {% else %}
 
-<!-- GA Code {{ analytics_id }} (only displayed in production) -->
+<!-- GA Code {{ secrets.analytics_id }} (only displayed in production) -->
 
 {% endif %}

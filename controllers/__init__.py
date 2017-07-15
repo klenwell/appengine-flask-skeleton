@@ -21,6 +21,7 @@ from flask_wtf.csrf import CSRFProtect, CSRFError
 from google.appengine.api import users
 
 import config
+from services import guest_service
 
 
 #
@@ -47,8 +48,7 @@ csrf = CSRFProtect(app)
 #
 @app.before_request
 def greet_guest():
-    g.app_engine_user = users.get_current_user()
-    g.app_engine_user_is_admin = users.is_current_user_admin()
+    g.uest = guest_service.check_guest_in()
 
 @app.before_request
 def check_csrf():
@@ -70,6 +70,7 @@ def check_csrf():
 def common_variables():
     return dict(
         config = config,
+        secrets = config.secrets,
         today = date.today()
     )
 

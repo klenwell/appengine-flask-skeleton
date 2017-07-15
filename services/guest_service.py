@@ -62,7 +62,11 @@ def identify_guest():
         return Guest.app_engine_user(app_engine_user)
 
     ip_address = ip_address_from_request(request)
-    return Guest.ip_address(ip_address)
+
+    if ip_address:
+        return Guest.ip_address(ip_address)
+    else:
+        return Guest()
 
 def generate_session_id(guest):
     micro_timestamp = int(round(time() * 100000))
