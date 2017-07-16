@@ -54,6 +54,18 @@ handlers:
   login: admin
 
   #
+  # Auth
+  #
+- url: /login(/.*)?
+  script: controllers.auth.app
+
+- url: /logout(/.*)?
+  script: controllers.auth.app
+
+- url: /auth(/.*)?
+  script: controllers.auth.app
+
+  #
   # Mail Handlers
   #
 - url: /_ah/mail/.+
