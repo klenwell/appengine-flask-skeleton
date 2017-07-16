@@ -9,6 +9,7 @@ html {
   min-height: 100%;
 }
 body {
+  margin-top: 60px;         /* Make room for navbar */
   margin-bottom: 60px;      /* Margin bottom by footer height */
 
 }
@@ -40,6 +41,14 @@ div.flashes div.alert {
   margin: 0 auto 20px;
   max-width: 80%;
 }
+
+/*
+ * Navbar
+ */
+nav.navbar li.user-button .open>a.user-name {
+  background-color: #31b0d5;
+}
+
 
 /*
  * Home Page
