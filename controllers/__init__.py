@@ -22,6 +22,7 @@ from flask_wtf.csrf import CSRFProtect, CSRFError
 from google.appengine.api import users
 
 import config
+import helpers
 from services import guest_service
 
 
@@ -78,25 +79,11 @@ def common_variables():
 #
 # Template Helper Methods
 #
-def at(a_datetime):
-    f = '%Y-%m-%d %H:%M:%S'
-
-    if not a_datetime:
-        return 'N/A'
-    else:
-        return a_datetime.strftime(f).lower()
-
 @app.context_processor
 def template_helpers():
-    helpers = dict(
-        at = at
-    )
-
     # Make helpers available to jinja
-    app.jinja_env.globals.update(**helpers)
-
-    return helpers
-
+    app.jinja_env.globals.update(**helpers.api)
+    return helpers.api
 
 ## Exception Handlers
 @app.errorhandler(CSRFError)

@@ -153,5 +153,9 @@ class Guest(ndb.Model):
     def is_anonymous(self):
         return not self.is_authenticated()
 
+    def is_admin(self):
+        # Note: This can be modified to redefine admin based on app factors.
+        return self.is_app_engine_admin()
+
     def is_app_engine_admin(self):
         return users.is_current_user_admin()

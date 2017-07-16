@@ -1,5 +1,7 @@
+{% import 'macros/navbar_helper.html' as navbar_helper %}
+
     <!-- Static navbar -->
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed"
@@ -15,7 +17,7 @@
 
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            {% if g.app_engine_user_is_admin %}
+            {% if g.uest.is_admin() %}
             <li class="dropdown">
               <a href="#"
                  class="dropdown-toggle"
@@ -34,6 +36,9 @@
 
           <!-- Right Side -->
           <ul class="nav navbar-nav navbar-right">
+            <li class="user-button">
+              {{ navbar_helper.user_button(g.uest) }}
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
