@@ -41,6 +41,12 @@ handlers:
   upload: assets/media/sitemap.txt
 
   #
+  # Guests
+  #
+- url: /profile(/.*)?
+  script: controllers.guests.app
+
+  #
   # API Controller Endpoints
   #
 - url: /api(/.*)?
