@@ -166,3 +166,17 @@ class MockIdentityService(object):
         options['auth_service_name'] = 'admin'
         options['auth_service_id'] = MockIdentityService.stub_app_engine_user(test, **options)
         return guests_fixture.app_engine_guest(**options)
+
+
+class MockRequest(object):
+    default_headers = {
+        'User-Agent': 'Mozilla/5.0 MockAgent/1.0'
+    }
+
+    def __init__(self, **options):
+        self.method = options.get('method', 'GET')
+        self.endpoint = options.get('endpoint', 'test_endpoint')
+        self.url = options.get('url', 'http://test-host/test/')
+        self.path = options.get('path', '/test/')
+        self.referrer = options.get('referrer', 'http://referrer-host/referrer')
+        self.headers = options.get('headers', MockRequest.default_headers)
