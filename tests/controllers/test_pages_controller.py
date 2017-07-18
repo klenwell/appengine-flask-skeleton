@@ -14,6 +14,7 @@ from tests.helper import (AppEngineControllerTest, MockIdentityService, XHR_HEAD
 from tests.fixtures import guest_fixture
 from controllers.pages import app as pages_controller
 from models.guest import Guest
+from models.guest_request import GuestRequest
 
 
 class PagesControllerTest(AppEngineControllerTest):
@@ -117,3 +118,25 @@ class PagesControllerTest(AppEngineControllerTest):
             self.assertEqual(g.uest.public_id, guest.public_id)
             self.assertEqual(guest.auth_service, 'ip_address')
             self.assertEqual(guest.auth_service_id, ip_address)
+
+    def test_expects_guest_service_to_save_guest_requests(self):
+        # Arrange
+        client = pages_controller.test_client()
+
+        # Assume
+        endpoint = '/'
+        self.assertEqual(Guest.query().count(), 0)
+        self.assertEqual(GuestRequest.query().count(), 0)
+
+        # Act
+        response = client.get(endpoint,
+                              follow_redirects=False,
+                              environ_base={'REMOTE_ADDR': '127.0.0.1'})
+        guest = Guest.query().get()
+        guest_request = GuestRequest.query().get()
+
+        # Assert
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Guest.query().count(), 1)
+        self.assertEqual(GuestRequest.query().count(), 1)
+        self.assertEqual(guest_request.guest.unique_id, guest.unique_id)

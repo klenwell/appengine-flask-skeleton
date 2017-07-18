@@ -14,6 +14,7 @@ from google.appengine.api import users
 from flask import (request, session)
 
 from models.guest import Guest
+from models.guest_request import GuestRequest
 
 
 #
@@ -39,7 +40,11 @@ def check_guest_in():
         session[SERVICE_KEY] = generate_session_id(guest)
         session[TALLY_KEY] = 1
 
-    # TODO: Log request.
+    # Log request.
+    GuestRequest.create(guest, request,
+                        ip_address=ip_address_from_request(request),
+                        session_id=session[SERVICE_KEY],
+                        session_counter=session[TALLY_KEY])
 
     # Return Guest
     return guest
