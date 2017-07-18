@@ -47,6 +47,12 @@ handlers:
   script: controllers.guests.app
 
   #
+  # Guest Requests
+  #
+- url: /guest-requests(/.*)?
+  script: controllers.guest_requests.app
+
+  #
   # API Controller Endpoints
   #
 - url: /api(/.*)?
