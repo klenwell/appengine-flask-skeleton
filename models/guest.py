@@ -12,6 +12,7 @@ from google.appengine.ext import ndb
 from google.appengine.api import memcache, users
 
 import config
+from models.guest_request import GuestRequest
 
 
 #
@@ -75,6 +76,31 @@ class Guest(ndb.Model):
         name, domain = self.email.split('@')
         name = name.replace('.', '').lower()
         return '%s@%s' % (name, domain.lower())
+
+    @property
+    def last_request(self):
+        requests = self.requests
+        return requests[0] if len(requests) > 0 else None
+
+    #
+    # Relations
+    #
+    @property
+    def requests(self):
+        """Returns 100 most recent requests. Updated every 2 minutes.
+        """
+        limit = 100
+        memcache_key = 'guest-requests-%s' % (self.public_id)
+        cache_life = 120    # 2 mins
+
+        requests = memcache.get(memcache_key)
+        if not requests:
+            requests = GuestRequest.query(GuestRequest.guest_key==self.key) \
+                                   .order(-GuestRequest.created_at) \
+                                   .fetch(limit)
+            memcache.set(memcache_key, requests, cache_life)
+
+        return requests
 
     #
     # Class Methods

@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div id="guest-requests-index">
+  <div class="header">
+    <h1>Guest Requests</h1>
+
+    {% include "guest_requests/_table.html" %}
+  </div>
+</div>
+{% endblock %}

@@ -10,6 +10,12 @@ from models.guest import Guest
 #
 # Guests
 #
+@app.route('/guests/', methods=['GET'])
+def guests_index():
+    guests = Guest.s_recently_created(25)
+    return render_template('guests/index.html',
+                           guests=guests)
+
 @app.route('/profile/', methods=['GET'])
 @app.route('/guests/<guest_id>/', methods=['GET'])
 def guests_show(guest_id=None):
