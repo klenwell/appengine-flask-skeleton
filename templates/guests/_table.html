@@ -3,8 +3,6 @@
     <tr>
       <th>Date/Time</th>
       <th>Public ID</th>
-      <th>Name</th>
-      <th>Email</th>
       <th>Auth Service</th>
       <th>IP Address</th>
     </tr>
@@ -13,7 +11,7 @@
   <tbody>
     {% if not guests: %}
     <tr>
-      <td class="text-center" colspan="8">No predictions found.</td>
+      <td class="text-center" colspan="4">No predictions found.</td>
     </tr>
     {% else: %}
       {% for guest in guests: %}
@@ -27,12 +25,6 @@
       </td>
       <td class="public-id">
         {{ guest.public_id }}
-      </td>
-      <td class="public-name">
-        {{ guest.public_name }}
-      </td>
-      <td class="email">
-        {{ guest.email }}
       </td>
       <td class="auth-service">
         {{ guest.auth_service }}

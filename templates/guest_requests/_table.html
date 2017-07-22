@@ -2,10 +2,10 @@
   <thead>
     <tr>
       <th>Date/Time</th>
-      <th>Guest ID</th>
+      <th>Public ID</th>
+      <th>IP Address</th>
       <th>Endpoint</th>
       <th>Path</th>
-      <th>IP Address</th>
       <th>Referrer</th>
       <th>Session ID</th>
       <th>Session Counter</th>
@@ -27,17 +27,17 @@
           title="{{at(guest_request.created_at)}}">
         {{ at(guest_request.created_at) }}
       </td>
-      <td class="guest-id">
-        {{ guest_request.guest_id }}
+      <td class="public-id">
+        {{ guest_request.guest.public_id }}
+      </td>
+      <td class="ip-address">
+        {{ guest_request.ip_address }}
       </td>
       <td class="endpoint">
         {{ guest_request.endpoint }}
       </td>
       <td class="path">
         {{ guest_request.path }}
-      </td>
-      <td class="ip-address">
-        {{ guest_request.ip_address }}
       </td>
       <td class="referrer">
         {{ guest_request.referrer }}
