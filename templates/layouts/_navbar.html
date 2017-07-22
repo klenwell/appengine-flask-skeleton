@@ -32,6 +32,14 @@
               </ul>
             </li>
             {% endif %}
+
+            <li class="{{ active_tab_class(request, '/guests/') }}">
+              <a href="/guests/">Guests</a>
+            </li>
+
+            <li class="{{ active_tab_class(request, '/guest-requests/') }}">
+              <a href="/guest-requests/">Guest Requests</a>
+            </li>
           </ul>
 
           <!-- Right Side -->

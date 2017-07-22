@@ -46,6 +46,9 @@ handlers:
 - url: /profile(/.*)?
   script: controllers.guests.app
 
+- url: /guests(/.*)?
+  script: controllers.guests.app
+
   #
   # Guest Requests
   #
