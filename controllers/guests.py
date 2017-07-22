@@ -14,7 +14,15 @@ from models.guest import Guest
 def guests_index():
     guests = Guest.s_recently_created(25)
     return render_template('guests/index.html',
-                           guests=guests)
+                           guests=guests,
+                           table='guests/_table.html')
+
+@app.route('/admin/guests/', methods=['GET'])
+def guests_admin_index():
+    guests = Guest.s_recently_created(25)
+    return render_template('guests/index.html',
+                           guests=guests,
+                           table='guests/_admin_table.html')
 
 @app.route('/profile/', methods=['GET'])
 @app.route('/guests/<guest_id>/', methods=['GET'])

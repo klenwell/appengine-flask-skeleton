@@ -49,11 +49,19 @@ handlers:
 - url: /guests(/.*)?
   script: controllers.guests.app
 
+- url: /admin/guests(/.*)?
+  script: controllers.guests.app
+  login: admin
+
   #
   # Guest Requests
   #
 - url: /guest-requests(/.*)?
   script: controllers.guest_requests.app
+
+- url: /admin/guest-requests(/.*)?
+  script: controllers.guest_requests.app
+  login: admin
 
   #
   # API Controller Endpoints
