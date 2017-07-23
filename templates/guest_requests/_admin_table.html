@@ -1,0 +1,55 @@
+<table class="guest-requests table table-condensed">
+  <thead>
+    <tr>
+      <th>Date/Time</th>
+      <th>Guest ID</th>
+      <th>Endpoint</th>
+      <th>Path</th>
+      <th>IP Address</th>
+      <th>Referrer</th>
+      <th>Session ID</th>
+      <th>Session Counter</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% if not guest_requests: %}
+    <tr>
+      <td class="text-center" colspan="8">No predictions found.</td>
+    </tr>
+    {% else: %}
+      {% for guest_request in guest_requests: %}
+    <tr id='guest-request-{{ guest_request.public_id }}'
+        class='unclickable'
+        data-href='/guest_requests/{{guest_request.public_id}}/'>
+      <td class="datetime momentize"
+          data-datetime="{{at(guest_request.created_at)}}"
+          title="{{at(guest_request.created_at)}}">
+        {{ at(guest_request.created_at) }}
+      </td>
+      <td class="guest-id">
+        {{ guest_request.guest_id }}
+      </td>
+      <td class="endpoint">
+        {{ guest_request.endpoint }}
+      </td>
+      <td class="path">
+        {{ guest_request.path }}
+      </td>
+      <td class="ip-address">
+        {{ guest_request.ip_address }}
+      </td>
+      <td class="referrer">
+        {{ guest_request.referrer }}
+      </td>
+      <td class="session-id">
+        {{ guest_request.session_id }}
+      </td>
+      <td class="session-counter">
+        {{ guest_request.session_counter }}
+      </td>
+    </tr>
+      {% endfor %}
+    {% endif %}
+  </tbody>
+</table>

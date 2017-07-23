@@ -144,7 +144,7 @@ class MockIdentityService(object):
         """
         email = options.get('email', 'user@gmail.com')
         user_id = hashlib.md5(email).hexdigest()
-        is_admin = str(int(options.get('as_admin', False)))
+        is_admin = str(int(options.get('is_admin', False)))
 
         test.testbed.setup_env(USER_EMAIL=email,
                                USER_ID=user_id,
@@ -152,3 +152,31 @@ class MockIdentityService(object):
                                overwrite=True)
         test.testbed.init_user_stub()
         return user_id
+
+    @staticmethod
+    def login_app_engine_user(test, **options):
+        options['email'] = options.get('email', 'guest@gmail.com')
+        user_id = MockIdentityService.stub_app_engine_user(test, **options)
+        return guests_fixture.app_engine_guest(**options)
+
+    @staticmethod
+    def login_app_engine_admin(test, **options):
+        options['email'] = options.get('email', 'admin@gmail.com')
+        options['is_admin'] = True
+        options['auth_service_name'] = 'admin'
+        options['auth_service_id'] = MockIdentityService.stub_app_engine_user(test, **options)
+        return guests_fixture.app_engine_guest(**options)
+
+
+class MockRequest(object):
+    default_headers = {
+        'User-Agent': 'Mozilla/5.0 MockAgent/1.0'
+    }
+
+    def __init__(self, **options):
+        self.method = options.get('method', 'GET')
+        self.endpoint = options.get('endpoint', 'test_endpoint')
+        self.url = options.get('url', 'http://test-host/test/')
+        self.path = options.get('path', '/test/')
+        self.referrer = options.get('referrer', 'http://referrer-host/referrer')
+        self.headers = options.get('headers', MockRequest.default_headers)

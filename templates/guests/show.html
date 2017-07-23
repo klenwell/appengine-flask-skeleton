@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div id="guests-show" data-id="{{ guest.public_id }}">
+  <div class="header">
+    <h1>{{ guest.public_name }}</h1>
+
+    <h4>Profile page.</h4>
+  </div>
+</div>
+{% endblock %}

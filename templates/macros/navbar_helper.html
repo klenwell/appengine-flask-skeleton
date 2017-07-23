@@ -1,0 +1,44 @@
+{% macro user_button(guest) -%}
+  {# Dynamically set vars based on user "role". #}
+  {% if guest.is_admin(): %}
+    {% set user_role = 'admin' %}
+    {% set button_url = '/admin/' %}
+    {% set role_glyphicon = 'glyphicon-dashboard' %}
+  {% else: %}
+    {% set user_role = 'user' %}
+    {% set button_url = '/profile/' %}
+    {% set role_glyphicon = 'glyphicon-user' %}
+  {% endif %}
+
+  {# Show guest name or login button depending on whether guest is authenticated. #}
+  {% if guest.is_authenticated() %}
+  <div class="btn btn-group user-button logged-in {{ user_role }}">
+    <a href="{{ button_url }}" class="btn btn-info user-name">
+      <span class="role-icon glyphicon {{ role_glyphicon }}" aria-hidden="true"></span>
+      <span class="public-name">{{ guest.public_name }}</span>
+    </a>
+
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+      <span class="caret"></span>
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+
+    <ul class="dropdown-menu">
+      <li class="{{ active_tab_class(request, '/profile/') }}">
+        <a href="/profile/">Profile</a>
+      </li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </div>
+
+  {% else %}
+  {# Based on: https://lipis.github.io/bootstrap-social/ #}
+  <div class="btn btn-group user-button not-logged-in">
+    <a href="/login/" class="btn btn-block btn-social btn-google">
+      <span class="fa fa-google"></span> Sign in with Google
+    </a>
+  </div>
+
+  {% endif %}
+{%- endmacro %}

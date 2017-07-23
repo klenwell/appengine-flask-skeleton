@@ -1,10 +1,11 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-<div id="home">
+<div id="guests-index">
   <div class="header">
-    <h1>Welcome to {{ config.PROJECT_NAME }}</h1>
-    <h4>Start building your app now.</h4>
+    <h1>Recent Guests</h1>
+
+    {% include table %}
   </div>
 </div>
 {% endblock %}

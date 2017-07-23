@@ -1,5 +1,7 @@
+{% import 'macros/navbar_helper.html' as navbar_helper %}
+
     <!-- Static navbar -->
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed"
@@ -10,12 +12,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">{{ PROJECT_NAME }}</a>
+          <a class="navbar-brand" href="/">{{ config.PROJECT_NAME }}</a>
         </div>
 
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            {% if g.app_engine_user_is_admin %}
+            {% if g.uest.is_admin() %}
             <li class="dropdown">
               <a href="#"
                  class="dropdown-toggle"
@@ -27,13 +29,26 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="/admin/">Dashboard</a></li>
+                <li><a href="/admin/guests/">Guests</a></li>
+                <li><a href="/admin/guest-requests/">Guest Requests</a></li>
               </ul>
             </li>
             {% endif %}
+
+            <li class="{{ active_tab_class(request, '/guests/') }}">
+              <a href="/guests/">Guests</a>
+            </li>
+
+            <li class="{{ active_tab_class(request, '/guest-requests/') }}">
+              <a href="/guest-requests/">Guest Requests</a>
+            </li>
           </ul>
 
           <!-- Right Side -->
           <ul class="nav navbar-nav navbar-right">
+            <li class="user-button">
+              {{ navbar_helper.user_button(g.uest) }}
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

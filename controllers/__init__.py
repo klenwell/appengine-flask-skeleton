@@ -10,21 +10,20 @@
 
     AssertionError: View function mapping is overwriting an existing endpoint function
 """
-import os
 from os.path import dirname, join
-from datetime import date, datetime
+from datetime import date
 from functools import wraps
-import logging
 
-from flask import (Flask, render_template, request, g, flash, redirect, abort,
-                   url_for, session, jsonify)
+from flask import (Flask, render_template, request, g, redirect, jsonify,
+                   flash, session)
 from flask.json import JSONEncoder
+from flask_wtf.csrf import CSRFProtect, CSRFError
 
 from google.appengine.api import users
 
 import config
-
-from flask_wtf.csrf import CsrfProtect
+import helpers
+from services import guest_service
 
 
 #
@@ -43,25 +42,26 @@ app.config['WTF_CSRF_CHECK_DEFAULT'] = False
 app.secret_key = config.secrets.FLASK_SECRET_KEY
 
 # Enables CSRF protection. See check_csrf below.
-csrf = CsrfProtect(app)
+csrf = CSRFProtect(app)
 
 
 #
-# Custom JSON Encode for date objects
-# See https://github.com/jeffknupp/sandman/issues/22#issuecomment-35677606
+# Request Callbacks
 #
-class CustomJSONEncoder(JSONEncoder):
-    def default(self, obj):
-        try:
-            if isinstance(obj, date):
-                return obj.isoformat()
-            iterable = iter(obj)
-        except TypeError:
-            pass
-        else:
-            return list(iterable)
-        return JSONEncoder.default(self, obj)
-app.json_encoder = CustomJSONEncoder
+@app.before_request
+def greet_guest():
+    g.uest = guest_service.check_guest_in()
+
+@app.before_request
+def check_csrf():
+    # ACCEPT_MOCK_CSRF_TOKEN config can be set in test config. If set, any
+    # submitted CSRF token will satisfy CSRF check.
+    if app.config.get('ACCEPT_MOCK_CSRF_TOKEN', False):
+        if request.form.get('csrf_token'):
+            return
+
+    if request.method in app.config['WTF_CSRF_METHODS']:
+        return csrf.protect()
 
 
 #
@@ -71,37 +71,22 @@ app.json_encoder = CustomJSONEncoder
 @app.context_processor
 def common_variables():
     return dict(
-        PROJECT_NAME = config.PROJECT_NAME,
-        DEPLOYMENT_STAGE = config.DEPLOYMENT_STAGE,
-        ANALYTICS_ID = config.secrets.ANALYTICS_ID,
-        CURRENT_YEAR = date.today().year
+        config = config,
+        secrets = config.secrets,
+        today = date.today()
     )
 
 #
 # Template Helper Methods
 #
-def at(a_datetime):
-    f = '%Y-%m-%d %H:%M:%S'
-
-    if not a_datetime:
-        return 'N/A'
-    else:
-        return a_datetime.strftime(f).lower()
-
 @app.context_processor
 def template_helpers():
-    helpers = dict(
-        at = at
-    )
-
     # Make helpers available to jinja
-    app.jinja_env.globals.update(**helpers)
-
-    return helpers
-
+    app.jinja_env.globals.update(**helpers.api)
+    return helpers.api
 
 ## Exception Handlers
-@csrf.error_handler
+@app.errorhandler(CSRFError)
 def csrf_error(reason):
     if request.is_xhr:
         return jsonify(error=reason), 400
@@ -146,25 +131,6 @@ def render_403(message=None):
         return render_template('403.html', message=message), 403
 
 #
-# Request Callbacks
-#
-@app.before_request
-def set_app_engine_user():
-    g.app_engine_user = users.get_current_user()
-    g.app_engine_user_is_admin = users.is_current_user_admin()
-
-@app.before_request
-def check_csrf():
-    # ACCEPT_MOCK_CSRF_TOKEN config can be set in test config. If set, any
-    # submitted CSRF token will satisfy CSRF check.
-    if app.config.get('ACCEPT_MOCK_CSRF_TOKEN', False):
-        if request.form.get('csrf_token'):
-            return
-
-    if request.method in app.config['WTF_CSRF_METHODS']:
-        return csrf.protect()
-
-#
 # Workflow Filters
 #
 def redirect_on_cancel():
@@ -176,3 +142,21 @@ def redirect_on_cancel():
             return f(*args, **kwargs)
         return wrapped
     return wrapper
+
+
+#
+# Custom JSON Encode for date objects
+# See https://github.com/jeffknupp/sandman/issues/22#issuecomment-35677606
+#
+class CustomJSONEncoder(JSONEncoder):
+    def default(self, obj):
+        try:
+            if isinstance(obj, date):
+                return obj.isoformat()
+            iterable = iter(obj)
+        except TypeError:
+            pass
+        else:
+            return list(iterable)
+        return JSONEncoder.default(self, obj)
+app.json_encoder = CustomJSONEncoder
