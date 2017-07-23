@@ -4,7 +4,7 @@
 # for details.
 
 # default: production
-version: zkfcpx0z
+version: staging
 
 application: hip-flask
 runtime: python27
