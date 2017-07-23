@@ -38,25 +38,13 @@ def active_tab_class(request, tab_path, **options):
 
     return 'inactive'
 
-def active_tag_menu_class(tag, active_tabs):
-    """Used in prediction index view pill menu."""
-    if tag in active_tabs:
-        return 'active'
-    else:
-        return 'inactive'
+def at(a_datetime):
+    f = '%Y-%m-%d %H:%M:%S'
 
-def button_class_by_tab(tab, active_style, default_style='default'):
-    route = request.path
-    if tab in route:
-        return active_style
+    if not a_datetime:
+        return 'N/A'
     else:
-        return default_style
-
-def active_if(value, target, alt='inactive'):
-    if value == target:
-        return 'active'
-    else:
-        return alt
+        return a_datetime.strftime(f).lower()
 
 def filter_flash_messages(messages, filter_by):
     unique_messages = []
