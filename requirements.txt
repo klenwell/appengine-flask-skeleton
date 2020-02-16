@@ -15,7 +15,7 @@
 #
 # Note: The `lib` directory is added to `sys.path` by `appengine_config.py`.
 #
-Flask==0.10.1
+flask>=1.0.0
 
 # Flask forms
 Flask-WTF

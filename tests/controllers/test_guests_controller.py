@@ -21,14 +21,13 @@ class GuestsControllerTest(AppEngineControllerTest):
     def test_expects_to_get_index(self):
         # Arrange
         client = guests_controller.test_client()
-        guest_fixture.guest()
 
         # Assume
         endpoint = '/guests/'
         row_selector = 'table.guests > tbody > tr'
-        self.assertEqual(Guest.query().count(), 1)
+        self.assertEqual(Guest.query().count(), 0)
 
-        # Act
+        # Act: this will create new anonymous guest
         response = client.get(endpoint, follow_redirects=False)
         html = parse_html(response.data)
         rows = html.select(row_selector) if html else None

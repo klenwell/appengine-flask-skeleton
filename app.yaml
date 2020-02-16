@@ -6,7 +6,7 @@
 # default: production
 version: production
 
-application: hip-flask
+application: hip-flask-on
 runtime: python27
 api_version: 1
 threadsafe: yes
